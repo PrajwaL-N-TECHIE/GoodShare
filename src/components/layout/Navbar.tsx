@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Heart, User, Menu, X, Home, BookOpen, ShoppingBag, Users } from 'lucide-react';
+import { HandHeart, User, Menu, X, Home, BookOpen, ShoppingBag, Users } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 const Navbar = () => {
@@ -12,22 +12,22 @@ const Navbar = () => {
     <nav className="border-b sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center gap-2">
-            <Heart className="h-6 w-6 text-goodshare-purple" />
+          <Link to="/" className="flex items-center gap-2 transition-transform hover:scale-105">
+            <HandHeart className="h-6 w-6 text-goodshare-purple" />
             <span className="font-bold text-xl text-goodshare-purple">GoodShare</span>
           </Link>
           
           <div className="hidden md:flex items-center gap-6">
-            <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition">
+            <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-goodshare-purple after:transition-all">
               Home
             </Link>
-            <Link to="/donations" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition">
+            <Link to="/donations" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-goodshare-purple after:transition-all">
               Donations
             </Link>
-            <Link to="/ngos" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition">
+            <Link to="/ngos" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-goodshare-purple after:transition-all">
               NGOs
             </Link>
-            <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition">
+            <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-goodshare-purple after:transition-all">
               About Us
             </Link>
           </div>
@@ -43,10 +43,10 @@ const Navbar = () => {
             </Link>
           ) : (
             <div className="hidden md:flex items-center gap-2">
-              <Button variant="outline" asChild>
+              <Button variant="outline" asChild className="hover:scale-105 transition-transform">
                 <Link to="/login">Login</Link>
               </Button>
-              <Button asChild>
+              <Button asChild className="hover:scale-105 transition-transform">
                 <Link to="/register">Register</Link>
               </Button>
             </div>
