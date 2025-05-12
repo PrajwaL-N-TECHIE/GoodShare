@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Carousel, 
   CarouselContent, 
@@ -7,6 +7,8 @@ import {
   CarouselNext, 
   CarouselPrevious 
 } from '@/components/ui/carousel';
+import { useInView } from 'react-intersection-observer';
+import { Sparkles } from 'lucide-react';
 
 const images = [
   {
@@ -32,18 +34,58 @@ const images = [
 ];
 
 const ImageCarousel = () => {
+  const [api, setApi] = useState<any>(null);
+  const [current, setCurrent] = useState(0);
+  const [ref, inView] = useInView({
+    threshold: 0.5,
+    triggerOnce: false,
+  });
+
+  // Handle auto-transition
+  useEffect(() => {
+    if (!api || !inView) return;
+    
+    const interval = setInterval(() => {
+      api.scrollNext();
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [api, inView]);
+
+  // Update the current slide for the indicators
+  useEffect(() => {
+    if (!api) return;
+    
+    const handleSelect = () => {
+      setCurrent(api.selectedScrollSnap());
+    };
+    
+    api.on('select', handleSelect);
+    
+    return () => {
+      api.off('select', handleSelect);
+    };
+  }, [api]);
+
   return (
-    <section className="py-16 bg-white">
+    <section ref={ref} className="py-16 bg-white relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-50/30 to-blue-50/30 -z-10"></div>
       <div className="container">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Our Impact in Action</h2>
+          <div className="inline-flex items-center justify-center mb-3">
+            <div className="bg-goodshare-purple/10 text-goodshare-purple p-2 rounded-full mr-2">
+              <Sparkles className="h-5 w-5" />
+            </div>
+            <span className="text-sm font-medium text-goodshare-purple">Featured Impacts</span>
+          </div>
+          <h2 className="text-3xl font-bold mb-4 tracking-tight">Our Impact in Action</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             See how your donations are making a difference in communities across the country.
           </p>
         </div>
         
         <div className="max-w-4xl mx-auto">
-          <Carousel className="w-full">
+          <Carousel className="w-full" setApi={setApi}>
             <CarouselContent>
               {images.map((image, index) => (
                 <CarouselItem key={index} className="md:basis-3/4">
@@ -69,6 +111,20 @@ const ImageCarousel = () => {
               <CarouselNext className="relative right-0" />
             </div>
           </Carousel>
+          
+          {/* Carousel indicators */}
+          <div className="flex justify-center gap-2 mt-4">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === current ? 'bg-goodshare-purple w-4' : 'bg-gray-300'
+                }`}
+                onClick={() => api?.scrollTo(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
