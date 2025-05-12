@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -10,7 +9,7 @@ export interface DonationProps {
   id: string;
   title: string;
   description: string;
-  category: 'food' | 'clothes' | 'books';
+  category: 'food' | 'clothes' | 'books' | 'footwear' | 'furniture' | 'toys';
   image: string;
   location: string;
   postedDate: string;
@@ -21,13 +20,19 @@ export interface DonationProps {
 const categoryColors = {
   food: 'bg-green-100 text-green-800',
   clothes: 'bg-yellow-100 text-yellow-800',
-  books: 'bg-orange-100 text-orange-800'
+  books: 'bg-orange-100 text-orange-800',
+  footwear: 'bg-blue-100 text-blue-800',
+  furniture: 'bg-purple-100 text-purple-800',
+  toys: 'bg-pink-100 text-pink-800'
 };
 
 const categoryLabels = {
   food: 'Food',
   clothes: 'Clothes',
-  books: 'Books'
+  books: 'Books',
+  footwear: 'Footwear',
+  furniture: 'Furniture',
+  toys: 'Toys'
 };
 
 const DonationCard = ({ id, title, description, category, image, location, postedDate, donorName, donorType }: DonationProps) => {

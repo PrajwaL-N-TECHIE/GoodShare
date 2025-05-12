@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,7 +19,7 @@ const formSchema = z.object({
   description: z.string().min(20, {
     message: "Description must be at least 20 characters.",
   }),
-  category: z.enum(["food", "clothes", "books"]),
+  category: z.enum(["food", "clothes", "books", "footwear", "furniture", "toys"]),
   location: z.string().min(3, {
     message: "Please provide a valid location.",
   }),
@@ -126,6 +125,9 @@ const DonatePage = () => {
                             <SelectItem value="food">Food</SelectItem>
                             <SelectItem value="clothes">Clothes</SelectItem>
                             <SelectItem value="books">Books</SelectItem>
+                            <SelectItem value="footwear">Footwear</SelectItem>
+                            <SelectItem value="furniture">Furniture</SelectItem>
+                            <SelectItem value="toys">Toys</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />

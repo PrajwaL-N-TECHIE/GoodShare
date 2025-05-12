@@ -15,6 +15,9 @@ import NotFound from "./pages/NotFound";
 import FoodDonationsPage from "./pages/FoodDonationsPage";
 import ClothesDonationsPage from "./pages/ClothesDonationsPage";
 import BookDonationsPage from "./pages/BookDonationsPage";
+import FootwearDonationsPage from "./pages/FootwearDonationsPage";
+import FurnitureDonationsPage from "./pages/FurnitureDonationsPage";
+import ToysDonationsPage from "./pages/ToysDonationsPage";
 import VolunteerPage from "./pages/VolunteerPage";
 
 const queryClient = new QueryClient();
@@ -36,6 +39,9 @@ const App = () => (
           <Route path="/donations/food" element={<FoodDonationsPage />} />
           <Route path="/donations/clothes" element={<ClothesDonationsPage />} />
           <Route path="/donations/books" element={<BookDonationsPage />} />
+          <Route path="/donations/footwear" element={<FootwearDonationsPage />} />
+          <Route path="/donations/furniture" element={<FurnitureDonationsPage />} />
+          <Route path="/donations/toys" element={<ToysDonationsPage />} />
           <Route path="/volunteer" element={<VolunteerPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

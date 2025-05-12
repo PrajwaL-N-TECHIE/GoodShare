@@ -77,6 +77,21 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/donations/footwear" className="text-muted-foreground hover:text-goodshare-purple text-sm">
+                  Footwear Donations
+                </Link>
+              </li>
+              <li>
+                <Link to="/donations/furniture" className="text-muted-foreground hover:text-goodshare-purple text-sm">
+                  Furniture Donations
+                </Link>
+              </li>
+              <li>
+                <Link to="/donations/toys" className="text-muted-foreground hover:text-goodshare-purple text-sm">
+                  Toys Donations
+                </Link>
+              </li>
+              <li>
                 <Link to="/volunteer" className="text-muted-foreground hover:text-goodshare-purple text-sm">
                   Volunteer
                 </Link>

@@ -88,6 +88,30 @@ const DonationFilter = ({ onFilterChange }: DonationFilterProps) => {
                 />
                 <Label htmlFor="books" className="text-sm font-normal">Books</Label>
               </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="footwear"
+                  checked={categories.includes('footwear')}
+                  onCheckedChange={(checked) => handleCategoryChange('footwear', checked === true)}
+                />
+                <Label htmlFor="footwear" className="text-sm font-normal">Footwear</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="furniture"
+                  checked={categories.includes('furniture')}
+                  onCheckedChange={(checked) => handleCategoryChange('furniture', checked === true)}
+                />
+                <Label htmlFor="furniture" className="text-sm font-normal">Furniture</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="toys"
+                  checked={categories.includes('toys')}
+                  onCheckedChange={(checked) => handleCategoryChange('toys', checked === true)}
+                />
+                <Label htmlFor="toys" className="text-sm font-normal">Toys</Label>
+              </div>
             </div>
           </div>
 

@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom';
 import { 
   Utensils, 
   BookOpen, 
-  Shirt, 
+  Shirt,
+  Shoe,
+  Sofa,
+  ToyBrick,
   ArrowRight 
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -33,6 +36,30 @@ const categories = [
     textColor: 'text-orange-700',
     description: 'Spread knowledge by donating books to schools, libraries, and community centers.',
     link: '/donations/books'
+  },
+  {
+    name: 'Footwear Donations',
+    icon: <Shoe className="h-8 w-8" />,
+    color: 'bg-blue-100',
+    textColor: 'text-blue-700',
+    description: 'Help people walk with dignity and comfort by donating gently used or new footwear.',
+    link: '/donations/footwear'
+  },
+  {
+    name: 'Furniture Donations',
+    icon: <Sofa className="h-8 w-8" />,
+    color: 'bg-purple-100',
+    textColor: 'text-purple-700',
+    description: 'Share furniture to help create comfortable living spaces for families in need.',
+    link: '/donations/furniture'
+  },
+  {
+    name: 'Toys Donations',
+    icon: <ToyBrick className="h-8 w-8" />,
+    color: 'bg-pink-100',
+    textColor: 'text-pink-700',
+    description: 'Bring joy to children by donating toys, games, and other play items.',
+    link: '/donations/toys'
   }
 ];
 
@@ -47,7 +74,7 @@ const CategorySection = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category, index) => (
             <Card key={index} className="border-none shadow-md card-hover-effect">
               <CardContent className="p-6">

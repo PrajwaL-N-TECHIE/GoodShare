@@ -69,6 +69,39 @@ const mockDonations: DonationProps[] = [
     postedDate: '4 days ago',
     donorName: 'Happy Tots Daycare',
     donorType: 'organization'
+  },
+  {
+    id: '7',
+    title: 'Unused School Shoes',
+    description: 'Brand new school shoes, different sizes for children between ages 8-14. Perfect for students.',
+    category: 'footwear',
+    image: 'https://images.unsplash.com/photo-1527576539890-dfa815648363?q=80&w=2070&auto=format&fit=crop',
+    location: 'JP Nagar, Bangalore',
+    postedDate: '1 day ago',
+    donorName: 'School Supplies Inc.',
+    donorType: 'business'
+  },
+  {
+    id: '8',
+    title: 'Living Room Sofa Set',
+    description: 'Lightly used 3-seater sofa with two matching armchairs. Good condition with minimal wear.',
+    category: 'furniture',
+    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?q=80&w=2070&auto=format&fit=crop',
+    location: 'Richmond Road, Bangalore',
+    postedDate: '3 days ago',
+    donorName: 'Vijay Kumar',
+    donorType: 'individual'
+  },
+  {
+    id: '9',
+    title: 'Educational Toys Collection',
+    description: 'A set of educational toys for toddlers and young children. Includes building blocks, puzzles, and learning games.',
+    category: 'toys',
+    image: 'https://images.unsplash.com/photo-1582562124811-c09040d0a901?q=80&w=2070&auto=format&fit=crop',
+    location: 'BTM Layout, Bangalore',
+    postedDate: '6 hours ago',
+    donorName: 'Early Learning Center',
+    donorType: 'organization'
   }
 ];
 
