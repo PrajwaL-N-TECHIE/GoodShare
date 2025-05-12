@@ -64,8 +64,8 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				goodshare: {
-					purple: '#7E69AB',
-					lightpurple: '#9b87f5',
+					purple: '#8B5CF6',
+					lightpurple: '#A78BFA',
 					green: '#F2FCE2',
 					yellow: '#FEF7CD',
 					orange: '#FEC6A1'
@@ -104,6 +104,10 @@ export default {
 				'slide-up': {
 					'0%': { transform: 'translateY(10px)', opacity: '0' },
 					'100%': { transform: 'translateY(0)', opacity: '1' }
+				},
+				'pulse-glow': {
+					'0%, 100%': { boxShadow: '0 0 5px rgba(139, 92, 246, 0.5)' },
+					'50%': { boxShadow: '0 0 20px rgba(139, 92, 246, 0.8)' },
 				}
 			},
 			animation: {
@@ -111,7 +115,8 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.4s ease-in-out',
 				'fade-out': 'fade-out 0.4s ease-in-out',
-				'slide-up': 'slide-up 0.4s ease-out'
+				'slide-up': 'slide-up 0.4s ease-out',
+				'pulse-glow': 'pulse-glow 2s infinite',
 			}
 		}
 	},

@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import DonationsPage from "./pages/DonationsPage";
+import DonatePage from "./pages/DonatePage";
 import NGOsPage from "./pages/NGOsPage";
 import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/donations" element={<DonationsPage />} />
+          <Route path="/donate" element={<DonatePage />} />
           <Route path="/ngos" element={<NGOsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/donations/food" element={<FoodDonationsPage />} />

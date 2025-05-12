@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DonationCard, { DonationProps } from './DonationCard';
 
 // Mock data for donations
@@ -76,15 +76,56 @@ interface DonationListProps {
   filters?: any;
 }
 
-const DonationList = ({ filters }: DonationListProps) => {
-  // In a real application, you would filter the donations based on the filters prop
-  const donations = mockDonations;
+const DonationList = ({ filters = {} }: DonationListProps) => {
+  const [filteredDonations, setFilteredDonations] = useState<DonationProps[]>(mockDonations);
+
+  // Apply filters whenever they change
+  useEffect(() => {
+    let result = [...mockDonations];
+    
+    // Filter by category if specified in the props filters
+    if (filters.category) {
+      result = result.filter(donation => donation.category === filters.category);
+    }
+    
+    // Apply additional filters from the filter component
+    if (filters.searchQuery) {
+      result = result.filter(
+        donation => 
+          donation.title.toLowerCase().includes(filters.searchQuery) ||
+          donation.description.toLowerCase().includes(filters.searchQuery) ||
+          donation.location.toLowerCase().includes(filters.searchQuery)
+      );
+    }
+    
+    if (filters.categories && filters.categories.length > 0) {
+      result = result.filter(donation => filters.categories.includes(donation.category));
+    }
+    
+    if (filters.donorType) {
+      result = result.filter(donation => donation.donorType === filters.donorType);
+    }
+    
+    // For distance, we would need real geo coordinates and a distance calculation
+    // This is just a placeholder for now
+    
+    setFilteredDonations(result);
+  }, [filters]);
   
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {donations.map(donation => (
-        <DonationCard key={donation.id} {...donation} />
-      ))}
+    <div>
+      {filteredDonations.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredDonations.map(donation => (
+            <DonationCard key={donation.id} {...donation} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12 bg-slate-50 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2">No donations found</h3>
+          <p className="text-muted-foreground">Try adjusting your filters to find more donations.</p>
+        </div>
+      )}
     </div>
   );
 };
