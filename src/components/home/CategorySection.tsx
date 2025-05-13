@@ -5,7 +5,7 @@ import {
   Utensils, 
   BookOpen, 
   Shirt,
-  Shoe,
+  Footprints,
   Sofa,
   ToyBrick,
   ArrowRight 
@@ -39,7 +39,7 @@ const categories = [
   },
   {
     name: 'Footwear Donations',
-    icon: <Shoe className="h-8 w-8" />,
+    icon: <Footprints className="h-8 w-8" />,
     color: 'bg-blue-100',
     textColor: 'text-blue-700',
     description: 'Help people walk with dignity and comfort by donating gently used or new footwear.',
