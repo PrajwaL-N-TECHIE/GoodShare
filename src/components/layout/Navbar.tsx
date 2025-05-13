@@ -1,17 +1,19 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { HandHeart, User, Menu, X, Home, BookOpen, ShoppingBag, Users } from 'lucide-react';
+import { HandHeart, User, Menu, X, Home, BookOpen, ShoppingBag, Users, LogOut } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { toast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/use-auth';
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, isAuthenticated, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
   
   useEffect(() => {
@@ -33,6 +35,15 @@ const Navbar = () => {
         description: "You're being redirected to the login page.",
       });
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You've been successfully logged out.",
+    });
+    navigate('/');
   };
   
   return (
@@ -58,13 +69,24 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <ThemeToggle />
           
-          {isLoggedIn ? (
-            <Link to="/profile">
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <User className="h-5 w-5" />
-                <span className="sr-only">Profile</span>
+          {isAuthenticated ? (
+            <div className="hidden md:flex items-center gap-2">
+              <Link to="/dashboard">
+                <Button variant="outline" size="sm" className="gap-1.5">
+                  <User className="h-4 w-4" />
+                  <span>{user?.firstName || 'Dashboard'}</span>
+                </Button>
+              </Link>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleLogout} 
+                className="text-muted-foreground hover:text-red-500"
+              >
+                <LogOut className="h-4 w-4 mr-1" />
+                Logout
               </Button>
-            </Link>
+            </div>
           ) : (
             <div className="hidden md:flex items-center gap-2">
               <Button 
@@ -99,7 +121,24 @@ const Navbar = () => {
                 <MobileNavLink to="/volunteer" label="Volunteer" icon={<HandHeart className="h-5 w-5" />} />
                 <MobileNavLink to="/about" label="About Us" icon={<BookOpen className="h-5 w-5" />} />
                 
-                {!isLoggedIn && (
+                {isAuthenticated ? (
+                  <div className="mt-4 space-y-2">
+                    <Button className="w-full flex items-center justify-center" asChild>
+                      <Link to="/dashboard">
+                        <User className="h-4 w-4 mr-2" />
+                        Dashboard
+                      </Link>
+                    </Button>
+                    <Button 
+                      className="w-full flex items-center justify-center" 
+                      variant="outline" 
+                      onClick={handleLogout}
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
                   <div className="mt-4 space-y-2">
                     <Button className="w-full" asChild onClick={handleLoginClick}>
                       <Link to="/login">Login</Link>

@@ -1,20 +1,32 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { useToast } from '@/components/ui/use-toast';
+import { useAuth } from '@/hooks/use-auth';
+import { useNavigate } from 'react-router-dom';
+import { Mail, Lock } from 'lucide-react';
 
 const LoginForm = () => {
-  const { toast } = useToast();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Login Successful",
-      description: "Welcome back to GoodShare!",
-    });
+    setIsSubmitting(true);
+    
+    try {
+      const success = await login(email, password);
+      if (success) {
+        navigate('/dashboard');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
@@ -26,7 +38,18 @@ const LoginForm = () => {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="you@example.com" required />
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input 
+                id="email" 
+                type="email" 
+                className="pl-10" 
+                placeholder="you@example.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required 
+              />
+            </div>
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -35,11 +58,28 @@ const LoginForm = () => {
                 Forgot password?
               </a>
             </div>
-            <Input id="password" type="password" placeholder="••••••••" required />
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input 
+                id="password" 
+                type="password" 
+                className="pl-10"
+                placeholder="••••••••" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required 
+              />
+            </div>
           </div>
         </CardContent>
         <CardFooter>
-          <Button type="submit" className="w-full">Sign In</Button>
+          <Button 
+            type="submit" 
+            className="w-full" 
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Signing In...' : 'Sign In'}
+          </Button>
         </CardFooter>
       </Card>
     </form>

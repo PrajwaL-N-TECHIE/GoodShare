@@ -1,11 +1,30 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Facebook, Twitter, Instagram, Mail, MapPin, Phone } from 'lucide-react';
+import { Heart, Facebook, Twitter, Instagram, Mail, MapPin, Phone, CheckCircle } from 'lucide-react';
 import RevealOnScroll from '@/components/animations/RevealOnScroll';
+import { toast } from '@/hooks/use-toast';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubscribing(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      console.log("Newsletter subscription for:", email);
+      toast({
+        title: "Subscription successful!",
+        description: "Thank you for subscribing to our newsletter.",
+      });
+      setEmail('');
+      setIsSubscribing(false);
+    }, 1000);
+  };
   
   return (
     <footer className="bg-gray-50 dark:bg-gray-900 border-t dark:border-gray-800">
@@ -118,20 +137,30 @@ const Footer = () => {
               </ul>
               
               <div className="mt-6">
-                <form className="flex items-center">
-                  <input 
-                    type="email" 
-                    placeholder="Your email" 
-                    className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 p-2 text-sm rounded-l-md w-full focus:outline-none focus:ring-1 focus:ring-goodshare-purple" 
-                  />
-                  <button 
-                    type="submit" 
-                    className="bg-goodshare-purple text-white p-2 rounded-r-md hover:bg-goodshare-purple/90 transition-colors"
-                  >
-                    <Mail className="h-4 w-4" />
-                  </button>
+                <form className="flex flex-col gap-2" onSubmit={handleSubscribe}>
+                  <div className="flex items-center">
+                    <input 
+                      type="email" 
+                      placeholder="Your email" 
+                      className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 p-2 text-sm rounded-l-md w-full focus:outline-none focus:ring-1 focus:ring-goodshare-purple" 
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                    <button 
+                      type="submit" 
+                      className="bg-goodshare-purple text-white p-2 rounded-r-md hover:bg-goodshare-purple/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                      disabled={isSubscribing}
+                    >
+                      {isSubscribing ? (
+                        <span className="animate-pulse">...</span>
+                      ) : (
+                        <Mail className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Subscribe to our newsletter</p>
                 </form>
-                <p className="text-xs text-muted-foreground mt-2">Subscribe to our newsletter</p>
               </div>
             </div>
           </div>

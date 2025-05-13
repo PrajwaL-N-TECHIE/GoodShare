@@ -14,10 +14,14 @@ import {
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 const FeedbackButton = () => {
   const [feedback, setFeedback] = useState('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [open, setOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = () => {
     if (feedback.trim().length < 5) {
@@ -29,16 +33,28 @@ const FeedbackButton = () => {
       return;
     }
 
-    // Here we would normally send the feedback to a server
-    console.log("Feedback submitted:", feedback);
+    setIsSubmitting(true);
     
-    toast({
-      title: "Feedback Received",
-      description: "Thank you for helping us improve GoodShare!",
-    });
-    
-    setFeedback('');
-    setOpen(false);
+    // Simulate sending to server and forwarding to prajwalgenious@gmail.com
+    setTimeout(() => {
+      console.log("Feedback submitted:", {
+        name,
+        email,
+        feedback,
+        sentTo: "prajwalgenious@gmail.com"
+      });
+      
+      toast({
+        title: "Feedback Received",
+        description: "Thank you for helping us improve GoodShare!",
+      });
+      
+      setFeedback('');
+      setEmail('');
+      setName('');
+      setOpen(false);
+      setIsSubmitting(false);
+    }, 1500);
   };
 
   return (
@@ -62,6 +78,25 @@ const FeedbackButton = () => {
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="space-y-2">
+            <Label htmlFor="name">Your Name</Label>
+            <Input 
+              id="name" 
+              placeholder="John Doe" 
+              value={name} 
+              onChange={(e) => setName(e.target.value)} 
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Your Email</Label>
+            <Input 
+              id="email" 
+              type="email" 
+              placeholder="you@example.com" 
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
+            />
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="feedback">Your feedback</Label>
             <Textarea
               id="feedback"
@@ -76,8 +111,13 @@ const FeedbackButton = () => {
           <Button type="button" variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button type="button" onClick={handleSubmit}>
-            Send Feedback
+          <Button 
+            type="button" 
+            onClick={handleSubmit} 
+            disabled={isSubmitting} 
+            className={isSubmitting ? "opacity-80" : ""}
+          >
+            {isSubmitting ? "Sending..." : "Send Feedback"}
           </Button>
         </DialogFooter>
       </DialogContent>

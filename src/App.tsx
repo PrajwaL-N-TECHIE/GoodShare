@@ -21,36 +21,49 @@ import ToysDonationsPage from "./pages/ToysDonationsPage";
 import VolunteerPage from "./pages/VolunteerPage";
 import ScrollToTop from "./components/donations/ScrollToTop";
 import FeedbackButton from "./components/feedback/FeedbackButton";
+import { AuthProvider } from "./hooks/use-auth";
+import DashboardPage from "./pages/DashboardPage";
+import PrivateRoute from "./components/auth/PrivateRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/donations" element={<DonationsPage />} />
-          <Route path="/donate" element={<DonatePage />} />
-          <Route path="/ngos" element={<NGOsPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/donations/food" element={<FoodDonationsPage />} />
-          <Route path="/donations/clothes" element={<ClothesDonationsPage />} />
-          <Route path="/donations/books" element={<BookDonationsPage />} />
-          <Route path="/donations/footwear" element={<FootwearDonationsPage />} />
-          <Route path="/donations/furniture" element={<FurnitureDonationsPage />} />
-          <Route path="/donations/toys" element={<ToysDonationsPage />} />
-          <Route path="/volunteer" element={<VolunteerPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <ScrollToTop />
-        <FeedbackButton />
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/donations" element={<DonationsPage />} />
+            <Route path="/donate" element={<DonatePage />} />
+            <Route path="/ngos" element={<NGOsPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/donations/food" element={<FoodDonationsPage />} />
+            <Route path="/donations/clothes" element={<ClothesDonationsPage />} />
+            <Route path="/donations/books" element={<BookDonationsPage />} />
+            <Route path="/donations/footwear" element={<FootwearDonationsPage />} />
+            <Route path="/donations/furniture" element={<FurnitureDonationsPage />} />
+            <Route path="/donations/toys" element={<ToysDonationsPage />} />
+            <Route path="/volunteer" element={<VolunteerPage />} />
+            
+            {/* Protected routes */}
+            <Route path="/dashboard" element={
+              <PrivateRoute>
+                <DashboardPage />
+              </PrivateRoute>
+            } />
+            
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <ScrollToTop />
+          <FeedbackButton />
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
