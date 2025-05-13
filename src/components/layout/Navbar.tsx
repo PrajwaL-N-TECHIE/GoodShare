@@ -1,15 +1,44 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { HandHeart, User, Menu, X, Home, BookOpen, ShoppingBag, Users } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { toast } from '@/hooks/use-toast';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const isMobile = useIsMobile();
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 20;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [scrolled]);
+  
+  const handleLoginClick = () => {
+    if (location.pathname !== '/login') {
+      toast({
+        title: "Login page",
+        description: "You're being redirected to the login page.",
+      });
+    }
+  };
   
   return (
-    <nav className="border-b sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md">
+    <nav className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+      scrolled ? 'bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-md' : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm'
+    }`}>
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2 transition-transform hover:scale-105">
@@ -18,22 +47,17 @@ const Navbar = () => {
           </Link>
           
           <div className="hidden md:flex items-center gap-6">
-            <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-goodshare-purple after:transition-all">
-              Home
-            </Link>
-            <Link to="/donations" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-goodshare-purple after:transition-all">
-              Donations
-            </Link>
-            <Link to="/ngos" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-goodshare-purple after:transition-all">
-              NGOs
-            </Link>
-            <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-goodshare-purple transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-goodshare-purple after:transition-all">
-              About Us
-            </Link>
+            <NavLink to="/" label="Home" />
+            <NavLink to="/donations" label="Donations" />
+            <NavLink to="/ngos" label="NGOs" />
+            <NavLink to="/volunteer" label="Volunteer" />
+            <NavLink to="/about" label="About Us" />
           </div>
         </div>
         
         <div className="flex items-center gap-4">
+          <ThemeToggle />
+          
           {isLoggedIn ? (
             <Link to="/profile">
               <Button variant="ghost" size="icon" className="rounded-full">
@@ -43,10 +67,18 @@ const Navbar = () => {
             </Link>
           ) : (
             <div className="hidden md:flex items-center gap-2">
-              <Button variant="outline" asChild className="hover:scale-105 transition-transform">
+              <Button 
+                variant="outline" 
+                asChild 
+                className="hover:scale-105 transition-transform"
+                onClick={handleLoginClick}
+              >
                 <Link to="/login">Login</Link>
               </Button>
-              <Button asChild className="hover:scale-105 transition-transform">
+              <Button 
+                asChild 
+                className="bg-goodshare-purple hover:bg-goodshare-purple/90 hover:scale-105 transition-transform animate-pulse-glow"
+              >
                 <Link to="/register">Register</Link>
               </Button>
             </div>
@@ -61,31 +93,21 @@ const Navbar = () => {
             </SheetTrigger>
             <SheetContent>
               <div className="flex flex-col gap-4 mt-8">
-                <Link to="/" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted">
-                  <Home className="h-5 w-5" />
-                  <span>Home</span>
-                </Link>
-                <Link to="/donations" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted">
-                  <ShoppingBag className="h-5 w-5" />
-                  <span>Donations</span>
-                </Link>
-                <Link to="/ngos" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted">
-                  <Users className="h-5 w-5" />
-                  <span>NGOs</span>
-                </Link>
-                <Link to="/about" className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted">
-                  <BookOpen className="h-5 w-5" />
-                  <span>About Us</span>
-                </Link>
+                <MobileNavLink to="/" label="Home" icon={<Home className="h-5 w-5" />} />
+                <MobileNavLink to="/donations" label="Donations" icon={<ShoppingBag className="h-5 w-5" />} />
+                <MobileNavLink to="/ngos" label="NGOs" icon={<Users className="h-5 w-5" />} />
+                <MobileNavLink to="/volunteer" label="Volunteer" icon={<HandHeart className="h-5 w-5" />} />
+                <MobileNavLink to="/about" label="About Us" icon={<BookOpen className="h-5 w-5" />} />
+                
                 {!isLoggedIn && (
-                  <>
-                    <Button className="w-full" asChild>
+                  <div className="mt-4 space-y-2">
+                    <Button className="w-full" asChild onClick={handleLoginClick}>
                       <Link to="/login">Login</Link>
                     </Button>
-                    <Button className="w-full" variant="outline" asChild>
+                    <Button className="w-full bg-goodshare-purple hover:bg-goodshare-purple/90" variant="outline" asChild>
                       <Link to="/register">Register</Link>
                     </Button>
-                  </>
+                  </div>
                 )}
               </div>
             </SheetContent>
@@ -93,6 +115,43 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+  );
+};
+
+const NavLink = ({ to, label }: { to: string; label: string }) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+  
+  return (
+    <Link 
+      to={to} 
+      className={`text-sm font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-goodshare-purple after:transition-all
+        ${isActive 
+          ? 'text-goodshare-purple after:w-full' 
+          : 'text-muted-foreground hover:text-goodshare-purple transition-colors'
+        }`}
+    >
+      {label}
+    </Link>
+  );
+};
+
+const MobileNavLink = ({ to, label, icon }: { to: string; label: string; icon: React.ReactNode }) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+  
+  return (
+    <Link 
+      to={to} 
+      className={`flex items-center gap-2 px-2 py-3 rounded-md transition-colors ${
+        isActive 
+          ? 'bg-goodshare-purple/10 text-goodshare-purple font-medium' 
+          : 'hover:bg-muted'
+      }`}
+    >
+      {icon}
+      <span>{label}</span>
+    </Link>
   );
 };
 

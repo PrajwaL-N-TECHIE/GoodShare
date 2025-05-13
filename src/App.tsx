@@ -19,6 +19,8 @@ import FootwearDonationsPage from "./pages/FootwearDonationsPage";
 import FurnitureDonationsPage from "./pages/FurnitureDonationsPage";
 import ToysDonationsPage from "./pages/ToysDonationsPage";
 import VolunteerPage from "./pages/VolunteerPage";
+import ScrollToTop from "./components/donations/ScrollToTop";
+import FeedbackButton from "./components/feedback/FeedbackButton";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +47,8 @@ const App = () => (
           <Route path="/volunteer" element={<VolunteerPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ScrollToTop />
+        <FeedbackButton />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
